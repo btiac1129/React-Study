@@ -5,4 +5,4 @@ const App = () => {
   return (<Hello name="Hanso" children="Good"/>)
 }
 
-export default Apps;
+export default App;

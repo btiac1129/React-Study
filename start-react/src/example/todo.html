@@ -1,0 +1,62 @@
+<!-- UI 라이브러리를 사용하지 않은 코드 예시 -->
+<html>
+
+<body>
+    <div class="todo">
+        <h3>할 일 목록</h3>
+        <ul class="list"></ul>
+        <input class="desc" type="text">
+        <button onclick="onAdd()">추가</button>
+        <button onclick="onSaveToServer()">서버에 저장</button>
+    </div>
+    <script>
+        let currentId = 1;
+        const todoList = [];
+
+        function onAdd() {
+            const $input = document.querySelector(".todo .desc");
+            const todo = {
+                id: currentId,
+                desc: $input.value
+            };
+            todoList.push(todo); // input 값 todoList에 넣기
+            currentId += 1;
+            const $list = document.querySelector(".todo .list");
+            const listElem = makeTodoElement(todo);
+            $list.appendChild(listElem);
+        }
+
+        function makeTodoElement(todo) {
+            const listElem = document.createElement("li");
+            const spanElem = document.createElement("span");
+            const btnElem = document.createElement("button");
+
+            spanElem.innerHTML = todo.desc; // todo 객체
+            btnElem.innerHTML = "삭제";
+            btnElem.dataset.id = todo.id;
+            btnElem.onclick = onDelete;
+
+            listElem.appendChild(spanElem);
+            listElem.appendChild(btnElem);
+            return listElem;
+        }
+
+        // todo list element 삭제하는 함수
+        function onDelete(e) {
+            const id = Number(e.target.dataset.id);
+            const index = todoList.findIndex(item => item.id === id);
+            if (index >= 0) {
+                todoList.splice(index, 1);
+                const $list = document.querySelector(".todo .list");
+                const $listElem = e.target.parentNode;
+                $list.removeChild($listElem);
+            }
+        }
+
+        function onSaveToServer() {
+
+        }
+    </script>
+</body>
+
+</html>
